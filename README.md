@@ -1,1 +1,1 @@
-Visit: https://kato-english.vercel.app/
+Visit: https://kato-english.web.app/
