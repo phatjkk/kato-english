@@ -1,89 +1,54 @@
+import {useGlobalStore} from '../../GlobalState/';
+import {useEffect,useState} from 'react'
+import {getCourse} from '../Learning/lib'
+import BeatLoader from "react-spinners/BeatLoader";
+import { Link } from "react-router-dom";
 function Home() {
 
-  const CourseData1 = [
-    {
-      unit: 1,
-      name: "BODY & HEALTH",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-green-500",
-      bg_color_to: "to-blue-500"
-    },
-    {
-      unit: 2,
-      name: "SPORTS & GAMES",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-blue-500",
-      bg_color_to: "to-indigo-700"
-    },
-    {
-      unit: 3,
-      name: "HOMES ",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-violet-800",
-      bg_color_to: "to-pink-600"
-    },
-    {
-      unit: 4,
-      name: "BUILDINGS",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-pink-600",
-      bg_color_to: "to-red-600"
-    },
-    {
-      unit: 5,
-      name: "FOOD",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-red-500",
-      bg_color_to: "to-orange-500"
-    },
-    {
-      unit: 6,
-      name: "SHOPPING",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-orange-500",
-      bg_color_to: "to-yellow-500"
-    },
-    {
-      unit: 7,
-      name: "FASHION & CLOTHING",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-yellow-500",
-      bg_color_to: "to-pink-600"
-    },
-    {
-      unit: 8,
-      name: "ARTS & MEDIA",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-purple-500",
-      bg_color_to: "to-blue-500"
-    },
-    {
-      unit: 9,
-      name: "NATURE",
-      detail: "Từ vựng cơ bản",
-      bg_color_from: "from-purple-500",
-      bg_color_to: "to-pink-500"
-    },
-  ];
-  return (<div className="bg-white text-white ">
+  const [currentCourse,SetCC] = useState<any>(null);
+  const [state,dispatch] = useGlobalStore();
+  useEffect(()=>{
+    getCourse('core1').then((couserData)=>{
+      // Object.keys(couserData).map(function(key, index) {
+      //   console.log(couserData[key].name)
+      // });
+      SetCC(couserData)
+    })
+    
+  },[])
+  return (<div className={"bg-white  pb-5 "+(state.ThemeMode?'':'darkmode')}>
+    
     <div className="flex font-['Nunito']">
       <div>
         <div>
-          <h3 className="mt-[1.5em] ml-[2em] text-black text-xl font-bold">
+          <h3 className={"mt-[1.5em] ml-[2em]  text-xl font-bold "+(state.ThemeMode?'text-black':'text-white')}>
             Từ vựng cấp độ 1 (A1-A2)
           </h3>
-          <div className=" md:grid md:grid-cols-3 md:gap-3">
+          <div className=" md:grid md:grid-cols-3 md:gap-3 text-white">
             {
-              CourseData1.map((item) =>
-                <button className={"w-[15em] h-[9em] transition hover:-translate-y-1 hover:scale-110 duration-300 ml-[2.5em] mt-[1.5em] bg-gradient-to-br " + item.bg_color_from + " " + item.bg_color_to + " rounded-3xl"}>
-                  <p className="font-medium">Bài {item.unit}</p>
+              currentCourse!=null?
+              Object.keys(currentCourse).sort().map((key:any, index:any) =>
+              <Link key={index}  to="/learning">
+                <button key={index} className={"w-[15em] h-[9em] transition hover:-translate-y-1 hover:scale-110 duration-300 ml-[2.5em] mt-[1.5em] bg-gradient-to-br "
+                 + currentCourse[key].bg_color_from + " "
+                  + currentCourse[key].bg_color_to + " rounded-3xl"}>
+                  <p className="font-medium">Bài {index+1}</p>
                   <h2 className="mb-2 font-bold text-lg">
-                    {item.name}
+                    {currentCourse[key].name}
                   </h2>
-                  <p className="font-normal">{item.detail}</p>
+                  <p className="font-normal">{currentCourse[key].detail}</p>
                 </button>
+                </Link>
 
               )
+              :
+              <div className="h-screen w-screen flex justify-center items-center">
+                <div className="">
+
+                <BeatLoader color={"#3ABFF8"} loading={true} size={30} /> 
+                </div>
+              </div>
+              
             }
           </div>
         </div>

@@ -5,26 +5,28 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import  Reducer  from './GlobalState/Reducer';
 import BeatLoader from "react-spinners/BeatLoader";
 const App = React.lazy(() => import("./App"));
-const Login = React.lazy(() => import("./pages/Login"));
+const Learning = React.lazy(() => import("./pages/Learning"));
 import './index.css'
-
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <BrowserRouter>
-    <Routes>
-      <Route path="/" element={
-        <React.Suspense fallback={<LoadingPage />}>
-      <App />
-      </React.Suspense>
-      } />
-      <Route path="Login" element={
-      <React.Suspense fallback={<LoadingPage />}><Login />
-      </React.Suspense>
-    } />
-    </Routes>
-    </BrowserRouter>
+    <Reducer>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={
+            <React.Suspense fallback={<LoadingPage />}>
+              <App />
+            </React.Suspense>
+          } />
+          <Route path="learning" element={
+            <React.Suspense fallback={<LoadingPage />}><Learning />
+            </React.Suspense>
+          } />
+        </Routes>
+      </BrowserRouter>
+      </Reducer>
   </React.StrictMode>
 )
 function LoadingPage() {

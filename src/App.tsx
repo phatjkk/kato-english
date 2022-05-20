@@ -2,7 +2,6 @@ import React from "react";
 import Home from "./pages/Home";
 import Header from "./pages/Components/Header";
 import Footer from "./pages/Components/Footer";
-import Login from "./pages/Login"
 // const Header = React.lazy(() => import("./pages/Components/Header"));
 import {
   BrowserRouter as Router,
@@ -15,8 +14,6 @@ function App() {
 
   return (
     <div className="App">
-      {/* <button onClick={AuntGoogle}>Login Google</button> */}
-
       <Header />
       <Home />
       <Footer />
